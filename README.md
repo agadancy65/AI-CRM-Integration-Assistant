@@ -41,7 +41,7 @@ cp .env.example .env
 **Option A — batch test run (fastest, good for recording your demo video):**
 
 ```bash
-python test_pipeline.py
+py -3.11 test_pipeline.py
 ```
 
 This processes every sample in `data/sample_inputs.json` through the full
@@ -51,7 +51,7 @@ input that's deliberately empty/junk to show validation working.
 **Option B — live webhook + dashboard:**
 
 ```bash
-python -m app.main
+py -3.11 -m app.main
 ```
 
 Then in another terminal:
@@ -69,7 +69,7 @@ full audit log.
 **Reminder sweep** (run manually, or on a schedule):
 
 ```bash
-python run_reminders.py
+py -3.11 run_reminders.py
 ```
 
 ## Sample input → output
