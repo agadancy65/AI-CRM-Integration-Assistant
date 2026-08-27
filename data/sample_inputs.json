@@ -1,0 +1,22 @@
+[
+  {
+    "source": "contact_form",
+    "text": "Hi, I'm Amaka Obi from Brightline Retail. We're looking for a way to automate our customer support ticket routing — right now everything sits in a shared inbox and nothing gets triaged. Can someone reach out? amaka.obi@brightlineretail.com"
+  },
+  {
+    "source": "email",
+    "text": "From: james.hendricks@nortonlogistics.co\nSubject: Following up\n\nHey team, just checking in again on the fleet-tracking integration we discussed last month. We really need this live before Q4 starts, it's becoming urgent. James, Norton Logistics."
+  },
+  {
+    "source": "meeting_note",
+    "text": "Call with Amaka Obi (Brightline Retail) - she confirmed budget is approved for the support automation project, wants to move to a pilot next week. Very positive call."
+  },
+  {
+    "source": "chat_widget",
+    "text": "hey do you guys do invoice automation? we're a small accounting firm, 12 staff, drowning in manual invoice entry. no rush just exploring options. - Priya, LedgerWorks"
+  },
+  {
+    "source": "email",
+    "text": "Hello, this is a test message with no useful information in it whatsoever, just checking the contact form works."
+  }
+]

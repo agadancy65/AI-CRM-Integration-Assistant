@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI CRM Integration Assistant</title>
+<style>
+  :root {
+    --bg: #0f1117; --panel: #171a23; --border: #2a2e3a;
+    --text: #e6e8ec; --muted: #9aa0ac; --accent: #6c8cff;
+    --good: #3ecf8e; --warn: #f5a623; --bad: #f0555a;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, Segoe UI, sans-serif; margin: 0; padding: 32px; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  p.sub { color: var(--muted); margin-top: 0; margin-bottom: 28px; }
+  .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+  .panel h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-top: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; }
+  .stage { padding: 2px 8px; border-radius: 20px; font-size: 11px; background: #262b3a; }
+  .stage.new { color: var(--accent); }
+  .badge { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11px; margin-left: 4px; }
+  .badge.success { background: rgba(62,207,142,0.15); color: var(--good); }
+  .badge.failed { background: rgba(240,85,90,0.15); color: var(--bad); }
+  .badge.skipped { background: rgba(245,166,35,0.15); color: var(--warn); }
+  .log-time { color: var(--muted); font-size: 11px; white-space: nowrap; }
+  .empty { color: var(--muted); font-size: 13px; padding: 16px 0; }
+  code { background: #21242f; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+</style>
+</head>
+<body>
+  <h1>AI CRM Integration Assistant</h1>
+  <p class="sub">Live view of CRM records and the automation's audit trail — refresh to see updates.</p>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Customer / Lead Records ({{ customers|length }})</h2>
+      {% if customers %}
+      <table>
+        <tr>
+          <th>Name</th><th>Company</th><th>Need</th><th>Stage</th>
+          <th>Assigned</th><th>Next Action</th><th>Updated</th>
+        </tr>
+        {% for c in customers %}
+        <tr>
+          <td>{{ c.name or "—" }}<br><span style="color:var(--muted);font-size:11px">{{ c.email or "" }}</span></td>
+          <td>{{ c.company or "—" }}</td>
+          <td style="max-width:180px">{{ c.need or "—" }}</td>
+          <td><span class="stage {{ c.stage }}">{{ c.stage }}</span></td>
+          <td>{{ c.assigned_to or "—" }}</td>
+          <td style="max-width:200px">{{ c.next_action or "—" }}</td>
+          <td class="log-time">{{ c.updated_at[:19] if c.updated_at else "—" }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <div class="empty">No records yet — send a lead to <code>POST /intake</code>.</div>
+      {% endif %}
+    </div>
+
+    <div class="panel">
+      <h2>Audit Log (latest 50)</h2>
+      {% if logs %}
+      <table>
+        <tr><th>Time</th><th>Event</th><th>Status</th></tr>
+        {% for l in logs %}
+        <tr>
+          <td class="log-time">{{ l.timestamp[:19] }}</td>
+          <td>{{ l.event_type }} {% if l.customer_id %}<span style="color:var(--muted)">#{{ l.customer_id }}</span>{% endif %}</td>
+          <td><span class="badge {{ l.status }}">{{ l.status }}</span></td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <div class="empty">No activity logged yet.</div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
